@@ -14,7 +14,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		63D21B500F93E74800361BAB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D21B4F0F93E74800361BAB /* QuartzCore.framework */; };
 		B5437B831B85BCAD004EEE53 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5437B821B85BCAD004EEE53 /* Images.xcassets */; };
-		B5AB2FA21B86EE39008571CD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5AB2F9C1B86EE39008571CD /* Localizable.strings */; };
 		B5AB2FA31B86EE39008571CD /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5AB2F9E1B86EE39008571CD /* MainViewController.xib */; };
 		B5AB2FA41B86EE39008571CD /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5AB2FA01B86EE39008571CD /* MainWindow.xib */; };
 		B5AB2FAB1B86EE5A008571CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5AB2FA61B86EE5A008571CD /* AppDelegate.m */; };
@@ -33,7 +32,6 @@
 		63D21B4F0F93E74800361BAB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5437B821B85BCAD004EEE53 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AccelerometerGraph/Images.xcassets; sourceTree = "<group>"; };
-		B5AB2F9D1B86EE39008571CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = AccelerometerGraph/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5AB2F9F1B86EE39008571CD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = AccelerometerGraph/en.lproj/MainViewController.xib; sourceTree = "<group>"; };
 		B5AB2FA11B86EE39008571CD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = AccelerometerGraph/en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		B5AB2FA51B86EE5A008571CD /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AccelerometerGraph/Class/AppDelegate.h; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				B5437B821B85BCAD004EEE53 /* Images.xcassets */,
-				B5AB2F9C1B86EE39008571CD /* Localizable.strings */,
 				B5AB2F9E1B86EE39008571CD /* MainViewController.xib */,
 				B5AB2FA01B86EE39008571CD /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -154,7 +151,7 @@
 			attributes = {
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = 7MB2M2F753;
+						DevelopmentTeam = 95SA947229;
 					};
 				};
 			};
@@ -186,7 +183,6 @@
 				B5AB2FA41B86EE39008571CD /* MainWindow.xib in Resources */,
 				B5437B831B85BCAD004EEE53 /* Images.xcassets in Resources */,
 				B5AB2FA31B86EE39008571CD /* MainViewController.xib in Resources */,
-				B5AB2FA21B86EE39008571CD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,14 +203,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B5AB2F9C1B86EE39008571CD /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B5AB2F9D1B86EE39008571CD /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		B5AB2F9E1B86EE39008571CD /* MainViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

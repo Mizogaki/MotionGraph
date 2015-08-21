@@ -1,3 +1,11 @@
+//
+//  GraphViewSegment + GraphTextView + GraphView
+//  MotionGraph
+//
+//  Created by Mizogaki Masahito on 3/19/15.
+//  Copyright (c) 2015 Mizogaki Masahito. All rights reserved.
+//
+
 #import "GraphView.h"
 
 #pragma mark - Quartz Helpers
@@ -18,7 +26,6 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 @interface GraphViewSegment : NSObject {
     
     CALayer *layer;
-    // Need 33 values to fill 32 pixel width.
     UIAccelerationValue xhistory[33];
     UIAccelerationValue yhistory[33];
     UIAccelerationValue zhistory[33];
@@ -52,43 +59,35 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     [super dealloc];
 }
 
--(void)reset
-{
-    // Clear out our components and reset the index to 33 to start filling values again...
+-(void)reset {
+    
     memset(xhistory, 0, sizeof(xhistory));
     memset(yhistory, 0, sizeof(yhistory));
     memset(zhistory, 0, sizeof(zhistory));
     index = 33;
-    // Inform Core Animation that we need to redraw this layer.
     [layer setNeedsDisplay];
 }
 
--(BOOL)isFull
-{
-    // Simple, this segment is full if there are no more space in the history.
+-(BOOL)isFull {
+
     return index == 0;
 }
 
--(BOOL)isVisibleInRect:(CGRect)r
-{
-    // Just check if there is an intersection between the layer's frame and the given rect.
+-(BOOL)isVisibleInRect:(CGRect)r {
+    
     return CGRectIntersectsRect(r, layer.frame);
 }
 
--(BOOL)addX:(UIAccelerationValue)x y:(UIAccelerationValue)y z:(UIAccelerationValue)z
-{
-    // If this segment is not full, then we add a new acceleration value to the history.
-    if(index > 0)
-    {
-        // First decrement, both to get to a zero-based index and to flag one fewer position left
+-(BOOL)addX:(UIAccelerationValue)x y:(UIAccelerationValue)y z:(UIAccelerationValue)z {
+    
+    if(index > 0) {
+
         --index;
         xhistory[index] = x;
         yhistory[index] = y;
         zhistory[index] = z;
-        // And inform Core Animation to redraw the layer.
         [layer setNeedsDisplay];
     }
-    // And return if we are now full or not (really just avoids needing to call isFull after adding a value).
     return index == 0;
 }
 
@@ -103,11 +102,10 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     
     // Draw the graph
     CGPoint lines[64];
-    int i;
     
     // X Line
-    for(i = 0; i < 32; ++i)
-    {
+    for(int i = 0; i < 32; ++i) {
+        
         lines[i*2].x = i;
         lines[i*2].y = -xhistory[i] * 16.0;
         lines[i*2+1].x = i + 1;
@@ -117,8 +115,8 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     CGContextStrokeLineSegments(context, lines, 64);
     
     // Y Line
-    for(i = 0; i < 32; ++i)
-    {
+    for(int i = 0; i < 32; ++i) {
+        
         lines[i*2].y = -yhistory[i] * 16.0;
         lines[i*2+1].y = -yhistory[i+1] * 16.0;
     }
@@ -126,8 +124,8 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     CGContextStrokeLineSegments(context, lines, 64);
     
     // Z Line
-    for(i = 0; i < 32; ++i)
-    {
+    for(int i = 0; i < 32; ++i) {
+        
         lines[i*2].y = -zhistory[i] * 16.0;
         lines[i*2+1].y = -zhistory[i+1] * 16.0;
     }
@@ -135,9 +133,8 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     CGContextStrokeLineSegments(context, lines, 64);
 }
 
--(id)actionForLayer:(CALayer *)layer forKey :(NSString *)key
-{
-    // We disable all actions for the layer, so no content cross fades, no implicit animation on moves, etc.
+-(id)actionForLayer:(CALayer *)layer forKey :(NSString *)key {
+    
     return [NSNull null];
 }
 
@@ -146,23 +143,17 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 #pragma mark - GraphTextView
 
 @interface GraphTextView : UIView
-{
-}
 
 @end
 
 @implementation GraphTextView
 
--(void)drawRect:(CGRect)rect
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
+-(void)drawRect:(CGRect)rect {
     
-    // Fill in the background
+    CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [[UIColor whiteColor] CGColor]);
     CGContextFillRect(context, self.bounds);
     CGContextTranslateCTM(context, 0.0, 56.0);
-    
-    // Draw the grid lines
     DrawGraphGridlines(context, 26.0, 6.0);
     
     // Draw the text
@@ -181,12 +172,8 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 
 #pragma mark - GraphView
 
-// Finally the actual GraphView class. This class handles the public interface as well as arranging
-// the subviews and sublayers to produce the intended effect.
-
 @interface GraphView()
 
-// Internal accessors
 @property(nonatomic, retain) NSMutableArray *segments;
 @property(nonatomic, assign) GraphViewSegment *current;
 @property(nonatomic, assign) GraphTextView *text;
@@ -197,7 +184,6 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 
 @synthesize segments, current, text;
 
-// Designated initializer
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -208,7 +194,6 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return self;
 }
 
-// Designated initializer
 -(id)initWithCoder:(NSCoder*)decoder
 {
     self = [super initWithCoder:decoder];
@@ -219,45 +204,32 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return self;
 }
 
--(void)commonInit
-{
-    // Create the text view and add it as a subview. We keep a weak reference
-    // to that view afterwards for laying out the segment layers.
+-(void)commonInit {
+
     text = [[GraphTextView alloc] initWithFrame:CGRectMake(0.0, 0.0, 32.0, 112.0)];
     [self addSubview:text];
     [text release];
     
-    // Create a mutable array to store segments, which is required by -addSegment
     segments = [[NSMutableArray alloc] init];
-    
-    // Create a new current segment, which is required by -addX:y:z and other methods.
-    // This is also a weak reference (we assume that the 'segments' array will keep the strong reference).
     current = [self addSegment];
 }
 
--(void)dealloc
-{
-    // Since 'text' and 'current' are weak references, we do not release them here.
-    // [super dealloc] will take care to release 'text' as a subview, and releasing 'segments' will release 'current'.
+-(void)dealloc {
+
     [segments release];
     [super dealloc];
 }
 
--(void)addX:(UIAccelerationValue)x y:(UIAccelerationValue)y z:(UIAccelerationValue)z
-{
-    // First, add the new acceleration value to the current segment
-    if([current addX:x y:y z:z])
-    {
-        // If after doing that we've filled up the current segment, then we need to
-        // determine the next current segment
+-(void)addX:(UIAccelerationValue)x y:(UIAccelerationValue)y z:(UIAccelerationValue)z {
+
+    if([current addX:x y:y z:z]) {
+        
         [self recycleSegment];
-        // And to keep the graph looking continuous, we add the acceleration value to the new segment as well.
         [current addX:x y:y z:z];
     }
-    // After adding a new data point, we need to advance the x-position of all the segment layers by 1 to
-    // create the illusion that the graph is advancing.
-    for(GraphViewSegment * s in segments)
-    {
+
+    for(GraphViewSegment * s in segments) {
+        
         CGPoint position = s.layer.position;
         position.x += 1.0;
         s.layer.position = position;
@@ -266,58 +238,42 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 
 -(GraphViewSegment*)addSegment {
     
-    // Create a new segment and add it to the segments array.
     GraphViewSegment * segment = [[GraphViewSegment alloc] init];
     [segments insertObject:segment atIndex:0];
     [segment release];
     
-    // Ensure that newly added segment layers are placed after the text view's layer so that the text view
-    // always renders above the segment layer.
     [self.layer insertSublayer:segment.layer below:text.layer];
-    // Position it properly (see the comment for kSegmentInitialPosition)
     segment.layer.position = CGPointMake(14.0, 56.0);
-    
     return segment;
 }
 
--(void)recycleSegment
-{
-    /** We start with the last object in the segments array, as it should either be visible onscreen,
-     which indicates that we need more segments, or pushed offscreen which makes it eligable for recycling.*/
+-(void)recycleSegment {
     
     GraphViewSegment * last = [segments lastObject];
-    if([last isVisibleInRect:self.layer.bounds]){
+    if([last isVisibleInRect:self.layer.bounds]) {
         
-        // The last segment is still visible, so create a new segment, which is now the current segment
         current = [self addSegment];
     }else{
-        // The last segment is no longer visible, so we reset it in preperation to be recycled.
+
         [last reset];
-        // Position it properly
         last.layer.position = CGPointMake(14.0, 56.0);
-        // Move the segment from the last position in the array to the first position in the array
-        // as it is now the youngest segment.
+
         [segments insertObject:last atIndex:0];
         [segments removeLastObject];
-        // And make it our current segment
         current = last;
     }
 }
 
 
 #pragma mark - The graph view itself exists only to draw the background and gridlines.
--(void)drawRect:(CGRect)rect
-{
+-(void)drawRect:(CGRect)rect {
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
-    // Fill in the background
     CGContextSetFillColorWithColor(context, [[UIColor whiteColor] CGColor]);
     CGContextFillRect(context, self.bounds);
     
-    CGFloat width = self.bounds.size.width;
     CGContextTranslateCTM(context, 0.0, 56.0);
-    
-    // Draw the grid lines
-    DrawGraphGridlines(context, 0.0, width);
+    DrawGraphGridlines(context, 0.0, self.bounds.size.width);
 }
 
 
@@ -328,7 +284,6 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
         return nil;
     }
     
-    // Let the GraphViewSegment handle its own accessibilityValue;
     GraphViewSegment *graphViewSegment = [segments objectAtIndex:0];
     return [graphViewSegment accessibilityValue];
 }

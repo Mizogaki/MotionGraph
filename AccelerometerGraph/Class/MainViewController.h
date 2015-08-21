@@ -1,4 +1,10 @@
-
+//
+//  MainViewController .h
+//  MotionGraph
+//
+//  Created by Mizogaki Masahito on 3/19/15.
+//  Copyright (c) 2015 Mizogaki Masahito. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 #import <CoreMotion/CoreMotion.h>
@@ -13,7 +19,7 @@
     GraphView *devView;
     
 	UIBarButtonItem *pause;
-	BOOL isPaused, useAdaptive;
+	BOOL isPaused;
     CMMotionManager *motionManager;
 }
 
