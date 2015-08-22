@@ -11,8 +11,8 @@
 @class GraphView;
 
 
-@interface MainViewController : UIViewController<UIAccelerometerDelegate>
-{
+@interface MainViewController : UIViewController<UIAccelerometerDelegate> {
+    
 	GraphView *accelerationView;
 	GraphView *gravityView;
     GraphView *userAccelerationView;
@@ -23,10 +23,10 @@
     CMMotionManager *motionManager;
 }
 
-@property(nonatomic, retain) IBOutlet GraphView *accelerationView;
-@property(nonatomic, retain) IBOutlet GraphView *gravityView;
-@property(nonatomic, retain) IBOutlet GraphView *userAccelerationView;
-@property(nonatomic, retain) IBOutlet GraphView *devView;
+@property (retain, nonatomic) IBOutlet GraphView *accelerationView;
+@property (retain, nonatomic) IBOutlet GraphView *gravityView;
+@property (retain, nonatomic) IBOutlet GraphView *userAccelerationView;
+@property (retain, nonatomic) IBOutlet GraphView *devView;
 
 @property (retain, nonatomic) IBOutlet UILabel *adxLabel;
 @property (retain, nonatomic) IBOutlet UILabel *adyLabel;
@@ -44,7 +44,7 @@
 @property (retain, nonatomic) IBOutlet UILabel *guayLabel;
 @property (retain, nonatomic) IBOutlet UILabel *guazLabel;
 
-@property(nonatomic, retain) IBOutlet UIBarButtonItem *pause;
+@property (retain, nonatomic) IBOutlet UIBarButtonItem *pause;
 @property (strong, nonatomic)  CMMotionManager *motionManager;
 
 

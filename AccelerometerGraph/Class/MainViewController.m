@@ -25,8 +25,9 @@
 @synthesize motionManager;
 
 
--(void)viewDidLoad
-{
+#pragma mark - viewDidLoad - ()
+-(void)viewDidLoad {
+    
 	[super viewDidLoad];
 	pause.possibleTitles = [NSSet setWithObjects:@"Pause", @"Resume", nil];
 	isPaused = NO;
@@ -36,9 +37,21 @@
 	[gravityView setIsAccessibilityElement:YES];
     [userAccelerationView setIsAccessibilityElement:YES];
     [devView setIsAccessibilityElement:YES];
-    
-
 }
+
+
+#pragma mark - viewDidUnload - ()
+-(void)viewDidUnload {
+    
+    [super viewDidUnload];
+    self.accelerationView = nil;
+    self.gravityView = nil;
+    self.userAccelerationView = nil;
+    self.pause = nil;
+}
+
+
+#pragma mark - metodoAcelerometro - ()
 - (void)metodoAcelerometro {
     
     self.motionManager = [[CMMotionManager alloc] init];
@@ -81,30 +94,19 @@
                 self.guaxLabel.text = [NSString stringWithFormat:@"%f",(deviceMotionData.gravity.x + deviceMotionData.userAcceleration.x)];
                 self.guayLabel.text = [NSString stringWithFormat:@"%f",(deviceMotionData.gravity.y + deviceMotionData.userAcceleration.y)];
                 self.guazLabel.text = [NSString stringWithFormat:@"%f",(deviceMotionData.gravity.z + deviceMotionData.userAcceleration.z)];
-                
             }
-            
         });
     }];
 }
 
--(void)viewDidUnload {
+
+#pragma mark - pauseOrResume - ()
+-(IBAction)pauseOrResume:(id)sender {
     
-	[super viewDidUnload];
-	self.accelerationView = nil;
-	self.gravityView = nil;
-    self.userAccelerationView = nil;
-	self.pause = nil;
-}
-
-
--(IBAction)pauseOrResume:(id)sender
-{
 	if(isPaused){
 		isPaused = NO;
 		pause.title = @"Pause";
 	}else{
-
 		isPaused = YES;
 		pause.title = @"Resume";
 	}
