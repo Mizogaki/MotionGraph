@@ -18,11 +18,5 @@
 	[window addSubview:viewController.view];
 }
 
--(void)dealloc {
-    
-    [window release];
-	[viewController release];
-    [super dealloc];
-}
 
 @end

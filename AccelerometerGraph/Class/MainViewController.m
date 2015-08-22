@@ -24,7 +24,7 @@
 
 
 #pragma mark - viewDidLoad - ()
--(void)viewDidLoad {
+- (void)viewDidLoad {
     
 	[super viewDidLoad];
 	pause.possibleTitles = [NSSet setWithObjects:@"Pause", @"Resume", nil];
@@ -39,7 +39,7 @@
 
 
 #pragma mark - viewDidUnload - ()
--(void)viewDidUnload {
+- (void)viewDidUnload {
     
     [super viewDidUnload];
     self.accelerationView = nil;
@@ -59,7 +59,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!isPaused) {
 
-                [accelerationView addX:accelerometerData.acceleration.x y:accelerometerData.acceleration.y z:accelerometerData.acceleration.z];
+                [accelerationView addXLine:accelerometerData.acceleration.x YLine:accelerometerData.acceleration.y ZLine:accelerometerData.acceleration.z];
                 self.adxLabel.text = [NSString stringWithFormat:@"%f",accelerometerData.acceleration.x];
                 self.adyLabel.text = [NSString stringWithFormat:@"%f",accelerometerData.acceleration.y];
                 self.adzLabel.text = [NSString stringWithFormat:@"%f",accelerometerData.acceleration.z];
@@ -68,18 +68,17 @@
         });
     }];
     
-    self.motionManager = [[CMMotionManager alloc] init];
-    [self.motionManager setDeviceMotionUpdateInterval:1/5];
-    
+
+    [self.motionManager setDeviceMotionUpdateInterval:1/2];
     [self.motionManager startDeviceMotionUpdatesToQueue:[[NSOperationQueue alloc]init] withHandler:^(CMDeviceMotion *deviceMotionData, NSError *error){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!isPaused) {
                 
-                [gravityView addX:deviceMotionData.gravity.x  y:deviceMotionData.gravity.y z:deviceMotionData.gravity.z];
-                [userAccelerationView addX:deviceMotionData.userAcceleration.x  y:deviceMotionData.userAcceleration.y z:deviceMotionData.userAcceleration.z];
-                [devView addX:(deviceMotionData.gravity.x + deviceMotionData.userAcceleration.x)
-                            y:(deviceMotionData.gravity.y + deviceMotionData.userAcceleration.y)
-                            z:(deviceMotionData.gravity.z + deviceMotionData.userAcceleration.z)];
+                [gravityView addXLine:deviceMotionData.gravity.x  YLine:deviceMotionData.gravity.y ZLine:deviceMotionData.gravity.z];
+                [userAccelerationView addXLine:deviceMotionData.userAcceleration.x  YLine:deviceMotionData.userAcceleration.y ZLine:deviceMotionData.userAcceleration.z];
+                [devView addXLine:(deviceMotionData.gravity.x + deviceMotionData.userAcceleration.x)
+                            YLine:(deviceMotionData.gravity.y + deviceMotionData.userAcceleration.y)
+                            ZLine:(deviceMotionData.gravity.z + deviceMotionData.userAcceleration.z)];
                 
                 self.gxLabel.text = [NSString stringWithFormat:@"%f",deviceMotionData.gravity.x];
                 self.gyLabel.text = [NSString stringWithFormat:@"%f",deviceMotionData.gravity.y];
@@ -99,7 +98,7 @@
 
 
 #pragma mark - pauseOrResume - ()
--(IBAction)pauseOrResume:(id)sender {
+- (IBAction)pauseOrResume:(id)sender {
     
 	if(isPaused){
 		isPaused = NO;
@@ -112,19 +111,6 @@
 }
 
 #pragma mark - dealloc - ()
--(void)dealloc {
-    
-	[accelerationView release];
-	[gravityView release];
-    [userAccelerationView release];
-	[pause release];
-    [devView release];
-    [_adxLabel release];
-    [_adyLabel release];
-    [_adzLabel release];
-    [_gyLabel release];
-	[super dealloc];
-}
 
 
 @end

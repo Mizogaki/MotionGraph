@@ -40,8 +40,8 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 
 @synthesize layer;
 
--(id)init
-{
+- (instancetype)init {
+    
     self = [super init];
     if(self != nil) {
         layer = [[CALayer alloc] init];
@@ -53,13 +53,9 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return self;
 }
 
--(void)dealloc
-{
-    [layer release];
-    [super dealloc];
-}
 
--(void)reset {
+
+- (void)reset {
     
     memset(xhistory, 0, sizeof(xhistory));
     memset(yhistory, 0, sizeof(yhistory));
@@ -68,17 +64,17 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     [layer setNeedsDisplay];
 }
 
--(BOOL)isFull {
+- (BOOL)isFull {
 
     return index == 0;
 }
 
--(BOOL)isVisibleInRect:(CGRect)r {
+- (BOOL)isVisibleInRect:(CGRect)r {
     
     return CGRectIntersectsRect(r, layer.frame);
 }
 
--(BOOL)addX:(UIAccelerationValue)x y:(UIAccelerationValue)y z:(UIAccelerationValue)z {
+- (BOOL)addX:(UIAccelerationValue)x y:(UIAccelerationValue)y z:(UIAccelerationValue)z {
     
     if(index > 0) {
 
@@ -91,7 +87,7 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return index == 0;
 }
 
--(void)drawLayer:(CALayer*)l inContext:(CGContextRef)context {
+- (void)drawLayer:(CALayer*)l inContext:(CGContextRef)context {
 
     CGContextSetFillColorWithColor(context,[[UIColor whiteColor] CGColor]);
     CGContextFillRect(context, layer.bounds);
@@ -129,7 +125,7 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     CGContextStrokeLineSegments(context, lines, 64);
 }
 
--(id)actionForLayer:(CALayer *)layer forKey :(NSString *)key {
+- (id)actionForLayer:(CALayer *)layer forKey :(NSString *)key {
     
     return [NSNull null];
 }
@@ -144,7 +140,8 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 
 @implementation GraphTextView
 
--(void)drawRect:(CGRect)rect {
+#pragma mark - drowRectText - ()
+- (void)drawRect:(CGRect)rect {
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [[UIColor whiteColor] CGColor]);
@@ -173,53 +170,44 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 
 @interface GraphView()
 
-@property(nonatomic, retain) NSMutableArray *segments;
-@property(nonatomic, assign) GraphViewSegment *current;
-@property(nonatomic, assign) GraphTextView *text;
+@property(nonatomic, strong) NSMutableArray *segments;
+@property(nonatomic, weak) GraphViewSegment *current;
+@property(nonatomic) GraphTextView *text;
 
 @end
 
 @implementation GraphView
 
-@synthesize segments, current, text;
+@synthesize segments;
+@synthesize current;
+@synthesize text;
 
--(id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if(self != nil)
-    {
-        [self commonInit];
-    }
-    return self;
-}
 
--(id)initWithCoder:(NSCoder*)decoder
-{
+#pragma mark - initWithCoder - ()
+- (instancetype)initWithCoder:(NSCoder*)decoder {
+    
     self = [super initWithCoder:decoder];
-    if(self != nil)
-    {
+    if(self != nil) {
+        
         [self commonInit];
     }
     return self;
 }
 
--(void)commonInit {
+
+#pragma mark - commonInit - ()
+- (void)commonInit {
 
     text = [[GraphTextView alloc] initWithFrame:CGRectMake(0.0, 0.0, 32.0, 112.0)];
     [self addSubview:text];
-    [text release];
     
     segments = [[NSMutableArray alloc] init];
     current = [self addSegment];
 }
 
--(void)dealloc {
 
-    [segments release];
-    [super dealloc];
-}
-
--(void)addX:(UIAccelerationValue)x y:(UIAccelerationValue)y z:(UIAccelerationValue)z {
+#pragma mark - addXLine - YLine - ZLine - ()
+- (void)addXLine:(UIAccelerationValue)x YLine:(UIAccelerationValue)y ZLine:(UIAccelerationValue)z {
 
     if([current addX:x y:y z:z]) {
         
@@ -237,11 +225,10 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 
 
 #pragma mark - addSegment - ()
--(GraphViewSegment*)addSegment {
+- (GraphViewSegment*)addSegment {
     
     GraphViewSegment * segment = [[GraphViewSegment alloc] init];
     [segments insertObject:segment atIndex:0];
-    [segment release];
     
     [self.layer insertSublayer:segment.layer below:text.layer];
     segment.layer.position = CGPointMake(14.0, 56.0);
@@ -250,7 +237,7 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 
 
 #pragma mark - recycleSegment - ()
--(void)recycleSegment {
+- (void)recycleSegment {
     
     GraphViewSegment * last = [segments lastObject];
     if([last isVisibleInRect:self.layer.bounds]) {
@@ -269,7 +256,7 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 
 
 #pragma mark - The graph view itself exists only to draw the background and gridlines.
--(void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect {
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [[UIColor whiteColor] CGColor]);
@@ -283,11 +270,11 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
 #pragma mark - Return an up-to-date value for the graph.
 - (NSString *)accessibilityValue {
     
-    if (segments.count == 0){
+    if (segments.count == 0) {
         return nil;
     }
     
-    GraphViewSegment *graphViewSegment = [segments objectAtIndex:0];
+    GraphViewSegment *graphViewSegment = segments[0];
     return [graphViewSegment accessibilityValue];
 }
 

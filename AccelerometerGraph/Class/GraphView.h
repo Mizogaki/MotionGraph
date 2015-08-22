@@ -17,10 +17,10 @@
 @interface GraphView : UIView {
     
 	NSMutableArray *segments;
-	GraphViewSegment *current;
+	GraphViewSegment *__weak current;
 	GraphTextView *text;
 }
 
-- (void)addX:(UIAccelerationValue)x y:(UIAccelerationValue)y z:(UIAccelerationValue)z;
+- (void)addXLine:(UIAccelerationValue)x YLine:(UIAccelerationValue)y ZLine:(UIAccelerationValue)z;
 
 @end
