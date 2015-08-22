@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Mizogaki Masahito. All rights reserved.
 //
 
-@interface AppDelegate : NSObject<UIApplicationDelegate>
-{
+@interface AppDelegate : NSObject<UIApplicationDelegate> {
+    
     UIWindow *window;
 	UIViewController *viewController;
 }
