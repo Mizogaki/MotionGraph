@@ -110,7 +110,5 @@
 	UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
 }
 
-#pragma mark - dealloc - ()
-
 
 @end
