@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreMotion/CoreMotion.h>
-@class GraphView;
 
+@class GraphView;
 
 @interface MainViewController : UIViewController<UIAccelerometerDelegate> {
     
@@ -22,6 +22,7 @@
 	BOOL isPaused;
     CMMotionManager *motionManager;
 }
+
 
 @property (retain, nonatomic) IBOutlet GraphView *accelerationView;
 @property (retain, nonatomic) IBOutlet GraphView *gravityView;
@@ -49,6 +50,5 @@
 
 
 -(IBAction)pauseOrResume:(id)sender;
-
 
 @end

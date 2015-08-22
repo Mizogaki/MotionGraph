@@ -9,8 +9,6 @@
 #import "MainViewController.h"
 #import "GraphView.h"
 
-#define kUpdateFrequency	60.0
-
 @interface MainViewController()
 
 @end
@@ -113,6 +111,7 @@
 	UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
 }
 
+#pragma mark - dealloc - ()
 -(void)dealloc {
     
 	[accelerationView release];
