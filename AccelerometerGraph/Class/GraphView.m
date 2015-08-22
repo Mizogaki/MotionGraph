@@ -91,16 +91,12 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return index == 0;
 }
 
--(void)drawLayer:(CALayer*)l inContext:(CGContextRef)context
-{
-    // Fill in the background
+-(void)drawLayer:(CALayer*)l inContext:(CGContextRef)context {
+
     CGContextSetFillColorWithColor(context,[[UIColor whiteColor] CGColor]);
     CGContextFillRect(context, layer.bounds);
-    
-    // Draw the grid lines
     DrawGraphGridlines(context, 0.0, 32.0);
     
-    // Draw the graph
     CGPoint lines[64];
     
     // X Line
@@ -156,16 +152,19 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     CGContextTranslateCTM(context, 0.0, 56.0);
     DrawGraphGridlines(context, 26.0, 6.0);
     
-    // Draw the text
     UIFont *systemFont = [UIFont systemFontOfSize:8.0];
     [[UIColor colorWithWhite:0.593 alpha:1.000] set];
-    [@"+3.0" drawInRect:CGRectMake(2.0, -56.0, 24.0, 16.0) withFont:systemFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-    [@"+2.0" drawInRect:CGRectMake(2.0, -40.0, 24.0, 16.0) withFont:systemFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-    [@"+1.0" drawInRect:CGRectMake(2.0, -24.0, 24.0, 16.0) withFont:systemFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-    [@" 0.0" drawInRect:CGRectMake(2.0,  -8.0, 24.0, 16.0) withFont:systemFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-    [@"-1.0" drawInRect:CGRectMake(2.0,   8.0, 24.0, 16.0) withFont:systemFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-    [@"-2.0" drawInRect:CGRectMake(2.0,  24.0, 24.0, 16.0) withFont:systemFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-    [@"-3.0" drawInRect:CGRectMake(2.0,  40.0, 24.0, 16.0) withFont:systemFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping ;
+    paragraphStyle.alignment = NSTextAlignmentRight;
+    
+    [@"+3.0" drawInRect:CGRectMake(2.0, -56.0, 24.0, 16.0) withAttributes:@{NSFontAttributeName:systemFont,NSParagraphStyleAttributeName:paragraphStyle}];
+    [@"+2.0" drawInRect:CGRectMake(2.0, -40.0, 24.0, 16.0) withAttributes:@{NSFontAttributeName:systemFont,NSParagraphStyleAttributeName:paragraphStyle}];
+    [@"+1.0" drawInRect:CGRectMake(2.0, -24.0, 24.0, 16.0) withAttributes:@{NSFontAttributeName:systemFont,NSParagraphStyleAttributeName:paragraphStyle}];
+    [@" 0.0" drawInRect:CGRectMake(2.0,  -8.0, 24.0, 16.0) withAttributes:@{NSFontAttributeName:systemFont,NSParagraphStyleAttributeName:paragraphStyle}];
+    [@"-1.0" drawInRect:CGRectMake(2.0,   8.0, 24.0, 16.0) withAttributes:@{NSFontAttributeName:systemFont,NSParagraphStyleAttributeName:paragraphStyle}];
+    [@"-2.0" drawInRect:CGRectMake(2.0,  24.0, 24.0, 16.0) withAttributes:@{NSFontAttributeName:systemFont,NSParagraphStyleAttributeName:paragraphStyle}];
+    [@"-3.0" drawInRect:CGRectMake(2.0,  40.0, 24.0, 16.0) withAttributes:@{NSFontAttributeName:systemFont,NSParagraphStyleAttributeName:paragraphStyle}];
 }
 
 @end
@@ -236,6 +235,8 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     }
 }
 
+
+#pragma mark - addSegment - ()
 -(GraphViewSegment*)addSegment {
     
     GraphViewSegment * segment = [[GraphViewSegment alloc] init];
@@ -247,6 +248,8 @@ void DrawGraphGridlines(CGContextRef context, CGFloat x, CGFloat width)
     return segment;
 }
 
+
+#pragma mark - recycleSegment - ()
 -(void)recycleSegment {
     
     GraphViewSegment * last = [segments lastObject];
