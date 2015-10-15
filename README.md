@@ -4,7 +4,7 @@
 )](https://developer.apple.com/swift)
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat
 )](http://mit-license.org)
-[![Issues](https://img.shields.io/github/issues/nghialv/Hakuba.svg?style=flat
+[![Issues](https://img.shields.io/github/issues/MMasahito/MotionGraph.svg?style=flat
 )](https://github.com/MMasahito/MotionGraph/issues?state=open)
 
 # MotionGraph
