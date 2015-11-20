@@ -24,5 +24,5 @@ MIT
 
 ## Author
 
-[MizogakiMasahito](https://github.com/MMasahito)
+[MizogakiMasahito](https://github.com/MMizogaki)
 
